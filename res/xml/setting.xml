@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+		<PreferenceCategory
+        android:title="设置"/>
+	    <CheckBoxPreference
+	        android:title="桌面歌词显示"
+	        android:defaultValue="false"
+	        android:key="showwinlrc">
+		</CheckBoxPreference>
+    
+</PreferenceScreen>
