@@ -158,8 +158,8 @@ implements OnItemClickListener,OnClickListener,OnItemLongClickListener
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		if(window==1)
 		{
-			PlayMusic.ind = arg2;
-			PlayMusic.press = true;
+			MusicPlayer.ind = arg2;
+			MusicPlayer.press = true;
 			//show("开始播放");
 			this.finish();
 			//this.onBackPressed();  //这个也可以退回去

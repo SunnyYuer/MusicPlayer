@@ -37,7 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class PlayMusic extends Activity
+public class MusicPlayer extends Activity
 implements OnClickListener,OnSeekBarChangeListener{
 
 	private MediaPlayer player;//媒体播放对象

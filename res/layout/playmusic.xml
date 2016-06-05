@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:padding="7dp"
-    tools:context=".PlayMusic" >
+    tools:context=".MusicPlayer" >
 
     <RelativeLayout
         android:layout_width="match_parent"
