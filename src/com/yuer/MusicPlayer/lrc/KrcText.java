@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-
-import android.os.Environment;
-
 public class KrcText
 {  //用于酷狗歌词
     private static final char[] miarry = { '@', 'G', 'a', 'w', '^', '2', 't',
@@ -16,7 +13,7 @@ public class KrcText
       
     public KrcText(String name)
     {
-    	File sdcard = Environment.getExternalStorageDirectory();
+    	String sdcard = "/sdcard";
         filename = sdcard.toString()+"/kugou/lyrics/";
 		filename = filename+name;
     }

@@ -14,7 +14,6 @@ import com.yuer.MusicPlayer.lrc.LrcService;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,7 +33,7 @@ public class AddMusicFod extends Activity implements OnItemClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.folder);
 		
-		path = Environment.getExternalStorageDirectory().toString();
+		path = "/sdcard";
 		pathori = path;
 		
 		lv = (ListView)findViewById(R.id.fodlist);
@@ -111,12 +110,12 @@ public class AddMusicFod extends Activity implements OnItemClickListener{
 	}
 	
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
-		File file = new File(path+"/"+folders[arg2].getName());
+	public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
+		
+		File file = new File(path+"/"+folders[i].getName());
 		if(file.isDirectory())
 		{
-			path = path+"/"+folders[arg2].getName();
+			path = path+"/"+folders[i].getName();
 			showFiles(path);
 		}
 	}
