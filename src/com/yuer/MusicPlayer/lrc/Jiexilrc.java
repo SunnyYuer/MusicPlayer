@@ -2,7 +2,7 @@ package com.yuer.MusicPlayer.lrc;
 
 public class Jiexilrc {
 
-	private String[] lyric;//È«²¿¸è´Ê
+	private String[] lyric;//å…¨éƒ¨æ­Œè¯
 	
 	public Jiexilrc(String[] lyr)
 	{
@@ -11,13 +11,13 @@ public class Jiexilrc {
 	
 	public int getLine(int jindu,int qline)
 	{
-		int index=0;//¶¨Î»¸è´ÊµÄĞĞÊı
+		int index=0;//å®šä½æ­Œè¯çš„è¡Œæ•°
 		for(index=qline;index<lyric.length;index++)
 		{
-			if(lyric[index].length()>=15)  //Ò»ĞĞÖÁÉÙÒª15³¤¶È²ÅÊÇ¸è´Ê
+			if(lyric[index].length()>=15)  //ä¸€è¡Œè‡³å°‘è¦15é•¿åº¦æ‰æ˜¯æ­Œè¯
 			{
 				//System.out.println(s);
-				int i = lyric[index].indexOf(",");  //ÕÒµ½¸è´ÊÇ°ÃæµÄ[100,200]ÖĞµÄ','
+				int i = lyric[index].indexOf(",");  //æ‰¾åˆ°æ­Œè¯å‰é¢çš„[100,200]ä¸­çš„','
 				if(i==-1)
 				{
 					continue;

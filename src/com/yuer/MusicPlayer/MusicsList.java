@@ -160,9 +160,9 @@ implements OnItemClickListener,OnClickListener,OnItemLongClickListener
 		{
 			MusicPlayer.ind = arg2;
 			MusicPlayer.press = true;
-			//show("¿ªÊ¼²¥·Å");
+			//show("å¼€å§‹æ’­æ”¾");
 			this.finish();
-			//this.onBackPressed();  //Õâ¸öÒ²¿ÉÒÔÍË»ØÈ¥
+			//this.onBackPressed();  //è¿™ä¸ªä¹Ÿå¯ä»¥é€€å›å»
 		}
 		if(window==2 && arg2==0)
 		{
@@ -195,7 +195,7 @@ implements OnItemClickListener,OnClickListener,OnItemLongClickListener
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("icon",R.drawable.add);
-		map.put("fname", "Ìí¼ÓÎÄ¼ş¼Ğ");
+		map.put("fname", "æ·»åŠ æ–‡ä»¶å¤¹");
 		list.add(map);
 		for(int i=0;i<fodnum;i++)
 		{
@@ -215,7 +215,7 @@ implements OnItemClickListener,OnClickListener,OnItemLongClickListener
 		int flag = 0;
 		String name="";
 		for(int i=0;i<n;i++)
-		{  //ÏÈ²éÕÒ³öÓĞÃ»ÓĞÏàÍ¬µÄÎÄ¼ş¼ĞÂ·¾¶
+		{  //å…ˆæŸ¥æ‰¾å‡ºæœ‰æ²¡æœ‰ç›¸åŒçš„æ–‡ä»¶å¤¹è·¯å¾„
 			name = sharedPre.getString("name"+i, "");
 			if(name.equals(newfodname))
 			{
@@ -240,7 +240,7 @@ implements OnItemClickListener,OnClickListener,OnItemLongClickListener
 			long arg3) {
 		if(window==2)
 		{
-			focusitem = arg2;  //Ñ¡ÖĞµÄÎÄ¼ş¼ĞÏî
+			focusitem = arg2;  //é€‰ä¸­çš„æ–‡ä»¶å¤¹é¡¹
 			arg2--;
 			if(arg2>=0) focusfod = sharedPre.getString("name"+arg2, "");
 		}
@@ -255,7 +255,7 @@ implements OnItemClickListener,OnClickListener,OnItemLongClickListener
 		if(window==2 && focusitem!=0)
 		{
 			menu.setHeaderTitle(focusfod);
-			menu.add(0, 0, 1, "É¾³ı");
+			menu.add(0, 0, 1, "åˆ é™¤");
 			focusfod = "";
 		}
 	}

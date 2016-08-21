@@ -26,7 +26,7 @@ public class AddMusicFod extends Activity implements OnItemClickListener{
 	private ListView lv;
 	private File[] folders;
 	private String path;
-	private String pathori;  //sdcard目录
+	private String pathori;  //sdcard鐩綍
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +141,7 @@ public class AddMusicFod extends Activity implements OnItemClickListener{
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		// 监听返回按键被触发的时候产生的事件
+		// 鐩戝惉杩斿洖鎸夐敭琚Е鍙戠殑鏃跺�欎骇鐢熺殑浜嬩欢
 		if(keyCode == KeyEvent.KEYCODE_BACK)
 		{
 			back();

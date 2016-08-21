@@ -40,39 +40,39 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class MusicPlayer extends Activity
 implements OnClickListener,OnSeekBarChangeListener{
 
-	private MediaPlayer player;//Ã½Ìå²¥·Å¶ÔÏó
-	private File[] musics; //ÒôÀÖÎÄ¼ş
-	private int num=0;//¸èÇúÊıÁ¿
-	private int index = 0;//¸èÇúÏÂ±ê
-	private int total;//²¥·Å×ÜÊ±³¤
-	public static int ind = 0; //µã»÷µÄ¸èÇú
-	private TextView musicName;	//¸èÇúÃûÏÔÊ¾¿Ø¼ş
-	private ImageButton btnPlay;//¸èÇú²¥·ÅºÍÔİÍ£°´Å¥¿Ø¼ş
-	public static boolean press = false;//ÊÇ·ñµã»÷¸èÇúÁĞ±í
-	private boolean play=false; //ÊÇ·ñÔÚ²¥·Å
-	private SeekBar seekBar;//½ø¶ÈÌõ
-	private TextView jindu,zong;//Ê±¼ä
-	private ImageButton next,pre;//ÏÂÒ»Çú£¬ÉÏÒ»Çú
-	private int mode=1;//¸èÇúÇĞ»»Ä£Ê½
-	private ImageButton btnMode;//Ä£Ê½°´Å¥
-	private int nowpro=0;//ÈËÎª»¬¶¯»¬¿éµÄ½ø¶È
-	private boolean proman=false;//ÊÇ·ñÈËÎª»¬¶¯
-	private boolean fugai=false;//ÊÇ·ñÊÇ±»¸èÇúÁĞ±í¸²¸Ç
-	private SharedPreferences sharedPre;//¹²ÏíµÄxmlÎÄ¼ş
-	private TextView lrc1; //¸è´ÊÇ°
-	private TextView lrc2; //¸è´ÊÇ°
-	private TextView lrc3; //¸è´ÊÖĞ
-	private TextView lrc4; //¸è´Êºó
-	private TextView lrc5; //¸è´Êºó
-	private String[] lyric;//È«²¿¸è´Ê
-	private int lrcline = 0;//¸è´ÊËùÔÚĞĞ
-	private Jiexilrc jiexi;  //½âÎö¸è´Ê
-	private boolean showlrc=true; //ÊÇ·ñÓĞ¸è´ÊÏÔÊ¾
+	private MediaPlayer player;
+	private File[] musics;
+	private int num=0;//æ­Œæ›²æ•°é‡
+	private int index = 0;//æ­Œæ›²ä¸‹æ ‡
+	private int total;//æ’­æ”¾æ€»æ—¶é•¿
+	public static int ind = 0;//ç‚¹å‡»çš„æ­Œæ›²
+	private TextView musicName;
+	private ImageButton btnPlay;
+	public static boolean press = false;//æ˜¯å¦ç‚¹å‡»æ­Œæ›²åˆ—è¡¨
+	private boolean play=false;//æ˜¯å¦åœ¨æ’­æ”¾
+	private SeekBar seekBar;
+	private TextView jindu,zong;//æ—¶é—´
+	private ImageButton next,pre;
+	private int mode=1;//æ­Œæ›²åˆ‡æ¢æ¨¡å¼
+	private ImageButton btnMode;
+	private int nowpro=0;//äººä¸ºæ»‘åŠ¨æ»‘å—çš„è¿›åº¦
+	private boolean proman=false;//æ˜¯å¦äººä¸ºæ»‘åŠ¨
+	private boolean fugai=false;//æ˜¯å¦æ˜¯è¢«æ­Œæ›²åˆ—è¡¨è¦†ç›–
+	private SharedPreferences sharedPre;//å…±äº«çš„xmlæ–‡ä»¶
+	private TextView lrc1;//æ­Œè¯å‰
+	private TextView lrc2;
+	private TextView lrc3;//æ­Œè¯ä¸­
+	private TextView lrc4;
+	private TextView lrc5;//æ­Œè¯å
+	private String[] lyric;//å…¨éƒ¨æ­Œè¯
+	private int lrcline = 0;//æ­Œè¯æ‰€åœ¨è¡Œ
+	private Jiexilrc jiexi;
+	private boolean showlrc=true;//æ˜¯å¦æœ‰æ­Œè¯æ˜¾ç¤º
 	private long preTime = 0;
 	private long secondTime;
-	private Intent serviceIntent;  //×ÀÃæ¸è´Ê·şÎñ
-	private boolean showwinlrc;  //ÊÇ·ñÏÔÊ¾×ÀÃæ¸è´Ê
-	private boolean sett=false;  //ÊÇ·ñ½øÈëÁËÉèÖÃ
+	private Intent serviceIntent;//æ¡Œé¢æ­Œè¯æœåŠ¡
+	private boolean showwinlrc;//æ˜¯å¦æ˜¾ç¤ºæ¡Œé¢æ­Œè¯
+	private boolean sett=false;//æ˜¯å¦è¿›å…¥äº†è®¾ç½®
 	
 	private void initUI(){
 		musicName = (TextView)findViewById(R.id.music_name);
@@ -92,7 +92,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 	}
 	
 	private void setmode()
-	{   //¼ÓÔØ²¥·ÅÄ£Ê½
+	{
 		sharedPre = getSharedPreferences("fodname", PreferenceActivity.MODE_WORLD_WRITEABLE);
 		int n = sharedPre.getInt("mode", 0);
 		if(n==0)
@@ -120,40 +120,33 @@ implements OnClickListener,OnSeekBarChangeListener{
 		
 		registerReceiver(mHomeKeyEventReceiver, new IntentFilter(
                 Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
-		//Ê¹ÓÃ¹ã²¥½ÓÊÜÕß¼àÌıhome¼ü
+		//ä½¿ç”¨å¹¿æ’­æ¥å—è€…ç›‘å¬homeé”®
 		
 		initUI();
 		setshowwinlrc();
 		filesIni();
 		readFiles();
 		
-		//´´½¨²¥·ÅÆ÷¶ÔÏó
 		player = new MediaPlayer();
 		if(num>0) jiazai();
 		
-		//Îª°´Å¥ÉèÖÃµã»÷ÊÂ¼ş
 		btnPlay.setOnClickListener(this);
 		next.setOnClickListener(this);
 		pre.setOnClickListener(this);
 		seekBar.setOnSeekBarChangeListener(this);
 		btnMode.setOnClickListener(this);
 		
-		//Îª²¥·ÅÆ÷ÉèÖÃ²¥·ÅÍê³ÉÊÂ¼ş
 		player.setOnCompletionListener(new OnCompletionListener() {
 			@Override
 			public void onCompletion(MediaPlayer arg0)
 			{
 				jiazai();
 				player.start();
-				
-				//int now = player.getCurrentPosition(); //»ñÈ¡¸èÇúµ±Ç°½ø¶È(ms)
-				//int total = player.getDuration();		//»ñÈ¡¸èÇúµÄ×Ü²¥·ÅÊ±³¤(ms)
-				//player.seekTo(88888)					//½«¸èÇú½ø¶ÈÉèÖÃµ½Ö¸¶¨Ê±³¤Î»ÖÃ
 			}
 		});
 		
 		serviceIntent = new Intent(this,LrcService.class);
-		startService(serviceIntent);  //Æô¶¯×ÀÃæ¸è´Ê·şÎñ£¬Ä¬ÈÏ²»ÏÔÊ¾
+		startService(serviceIntent);//å¯åŠ¨æ¡Œé¢æ­Œè¯æœåŠ¡ï¼Œé»˜è®¤ä¸æ˜¾ç¤º
 	}
 	
 	public void filesIni()
@@ -214,7 +207,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 		seekBar.setProgress(0);
 		seekBar.setMax(1000);
 		getlrc("");
-		musicName.setText("ÎŞÒôÀÖ");
+		musicName.setText("æ— éŸ³ä¹");
 		index=0;
 	}
 	
@@ -222,14 +215,11 @@ implements OnClickListener,OnSeekBarChangeListener{
 	{
 		try {
 			player.reset();
-			//System.out.println(index);
-			//ÉèÖÃ²¥·ÅÔ´
 			player.setDataSource(musics[index].getAbsolutePath());
-			//¼ÓÔØ²¥·ÅÔ´
 			player.prepare();
 			
 			musicName.setText(musics[index].getName().replaceAll(".mp3", ""));
-			total = player.getDuration();   //»ñÈ¡²¥·Å×ÜÊ±³¤
+			total = player.getDuration();//è·å–æ’­æ”¾æ€»æ—¶é•¿
 			seekBar.setMax(total);
 			zong.setText(getTime(total));
 			getlrc(musics[index].getName().replaceAll(".mp3", ".krc"));
@@ -258,7 +248,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 			jiexi = new Jiexilrc(lyric);
 			setlrc();
 		} catch (IOException e) {
-			lrc3.setText("ÎŞ¸è´Ê");
+			lrc3.setText("æ— æ­Œè¯");
 			showlrc=false;
 			setwinlrc(lrc4.getText().toString());
 		}
@@ -287,7 +277,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 	}
 	
 	public void setwinlrc(String lrc)
-	{  //×ÀÃæ¸è´Ê
+	{  //æ¡Œé¢æ­Œè¯
 		LrcService.newlrc(lrc);
 	}
 
@@ -295,33 +285,32 @@ implements OnClickListener,OnSeekBarChangeListener{
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.btn_play:
-			//¿ªÊ¼²¥·Å
 			play = !play;
 			if(play)
 			{
 				if(num==0)
 				{
-					show("ÇëÌí¼ÓÒôÀÖ");
+					show("è¯·æ·»åŠ éŸ³ä¹");
 					play = !play;
 					break;
 				}
 				player.start();
 				h.post(r);
-				//show("¿ªÊ¼²¥·Å");
+				//show("å¼€å§‹æ’­æ”¾");
 				btnPlay.setImageResource(R.drawable.pause_dark);
 			}
 			else
 			{
 				player.pause();
 				h.removeCallbacks(r);
-				//show("ÔİÍ£");
+				//show("æš‚åœ");
 				btnPlay.setImageResource(R.drawable.play_dark);
 			}
 			break;
 		case R.id.btn_pre:
 			if(num==0)
 			{
-				show("ÇëÌí¼ÓÒôÀÖ");
+				show("è¯·æ·»åŠ éŸ³ä¹");
 				break;
 			}
 			if(mode==1)
@@ -331,7 +320,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 		case R.id.btn_next:
 			if(num==0)
 			{
-				show("ÇëÌí¼ÓÒôÀÖ");
+				show("è¯·æ·»åŠ éŸ³ä¹");
 				break;
 			}
 			if(!play)
@@ -348,21 +337,21 @@ implements OnClickListener,OnSeekBarChangeListener{
 			{
 				mode = 2;
 				btnMode.setImageResource(R.drawable.shuffle_dark);
-				//show("Ëæ»ú²¥·Å");
+				//show("éšæœºæ’­æ”¾");
 				break;
 			}
 			if(mode==2)
 			{
 				mode = 3;
 				btnMode.setImageResource(R.drawable.repeat_dark);
-				//show("µ¥ÇúÑ­»·");
+				//show("å•æ›²å¾ªç¯");
 				break;
 			}
 			if(mode==3)
 			{
 				mode = 1;
 				btnMode.setImageResource(R.drawable.shunxu_dark);
-				//show("Ë³Ğò²¥·Å");
+				//show("é¡ºåºæ’­æ”¾");
 				break;
 			}
 		}
@@ -379,11 +368,11 @@ implements OnClickListener,OnSeekBarChangeListener{
 		
 		@Override
 		public void run() {
-			h.postDelayed(r, 100);  //¼ä¸ô100msÔÙ´ÎÖ´ĞĞ
+			h.postDelayed(r, 100);//é—´éš”100mså†æ¬¡æ‰§è¡Œ
 			if(!proman) seekBar.setProgress(player.getCurrentPosition());
 			setlrc();
 			if(seekBar.getProgress()+300>total && seekBar.getProgress()<total)
-			{  //ÓÃÓÚ×Ô¶¯ÇĞ»»¸èÇú
+			{  //ç”¨äºè‡ªåŠ¨åˆ‡æ¢æ­Œæ›²
 				changeMusic();
 			}
 		}
@@ -440,10 +429,10 @@ implements OnClickListener,OnSeekBarChangeListener{
 	
 	public void changeMusic()
 	{
-		//Ä£Ê½Ò»  Ë³ĞòÉÏÏÂÒ»Çú
-		//Ä£Ê½¶ş  Ëæ»úÏÂÒ»Çú
-		//Ä£Ê½Èı  Ñ­»·²¥·Å
-		player.seekTo(total);  //ÉèÖÃ½ø¶ÈÎª×îºó£¬»á´¥·¢²¥·ÅÍê³ÉÊÂ¼ş
+		//æ¨¡å¼ä¸€  é¡ºåºä¸Šä¸‹ä¸€æ›²
+		//æ¨¡å¼äºŒ  éšæœºä¸‹ä¸€æ›²
+		//æ¨¡å¼ä¸‰  å¾ªç¯æ’­æ”¾
+		player.seekTo(total);  //è®¾ç½®è¿›åº¦ä¸ºæœ€åï¼Œä¼šè§¦å‘æ’­æ”¾å®Œæˆäº‹ä»¶
 		seekBar.setProgress(0);
 		if(mode==1)
 		{
@@ -462,23 +451,21 @@ implements OnClickListener,OnSeekBarChangeListener{
 			Random r = new Random();
 			index=r.nextInt(num);
 		}
-		//show("¸èÇúÇĞ»»");
 	}
 	
 	public void lists(View v)
-    {//Ìø×ªµ½ÁíÒ»¸öActivity
+	{
 		fugai = true;
-    	Intent i = new Intent(this,MusicsList.class);
-    	//Æô¶¯
-    	startActivity(i);
-    }
+		Intent i = new Intent(this,MusicsList.class);
+		startActivity(i);
+	}
 
     @Override
 	protected void onRestart() {
-    	if(fugai)  //´Ó¸èÇúÁĞ±í»Øµ½Ö÷½çÃæ
+    	if(fugai)  //ä»æ­Œæ›²åˆ—è¡¨å›åˆ°ä¸»ç•Œé¢
     	{
 	    	readFiles();
-	    	if(press)  //µã»÷ÁË¸èÇú
+	    	if(press)  //ç‚¹å‡»äº†æ­Œæ›²
 	    	{
 				index = ind;
 				if(!play)
@@ -496,13 +483,13 @@ implements OnClickListener,OnSeekBarChangeListener{
 	    	else
 	    	{
 	    		if(num==0) initial();
-	    		if(musicName.getText().equals("ÎŞÒôÀÖ") && num>0) jiazai();
+	    		if(musicName.getText().equals("æ— éŸ³ä¹") && num>0) jiazai();
 	    	}
 	    	fugai = false;
     	}
     	else
     	{
-    		if(play)  //´òµç»°ÍêÁËÖ®ºó×Ô¶¯¼ÌĞø²¥·Å
+    		if(play)  //æ‰“ç”µè¯å®Œäº†ä¹‹åè‡ªåŠ¨ç»§ç»­æ’­æ”¾
     		{
     			player.start();
 				h.post(r);
@@ -512,7 +499,7 @@ implements OnClickListener,OnSeekBarChangeListener{
     	LrcService.lrc1.setVisibility(View.INVISIBLE);
 		LrcService.lrc2.setVisibility(View.INVISIBLE);
     	if(sett)
-    	{  //¸üĞÂshowwinlrc
+    	{  //æ›´æ–°showwinlrc
     		setshowwinlrc();
     		sett = false;
     	}
@@ -521,13 +508,13 @@ implements OnClickListener,OnSeekBarChangeListener{
     
     @Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		// ¼àÌı·µ»Ø°´¼ü±»´¥·¢µÄÊ±ºò²úÉúµÄÊÂ¼ş
+    	// ç›‘å¬è¿”å›æŒ‰é”®è¢«è§¦å‘çš„æ—¶å€™äº§ç”Ÿçš„äº‹ä»¶
 		if(keyCode == KeyEvent.KEYCODE_BACK)
 		{
-			secondTime = System.currentTimeMillis();  //»ñÈ¡µÚ¶ş´Î²Ù×÷ÍË³öÊ±¼ä
+			secondTime = System.currentTimeMillis();//è·å–ç¬¬äºŒæ¬¡æ“ä½œé€€å‡ºæ—¶é—´
 			if(secondTime - preTime > 2000)
 			{
-				show("ÔÙ°´Ò»´ÎÍË³ö");
+				show("å†æŒ‰ä¸€æ¬¡é€€å‡º");
 				preTime = secondTime;
 			}
 			else
@@ -561,14 +548,14 @@ implements OnClickListener,OnSeekBarChangeListener{
             if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
                 String reason = intent.getStringExtra(SYSTEM_REASON);
                 if (TextUtils.equals(reason, SYSTEM_HOME_KEY)) {
-                     //±íÊ¾°´ÁËhome¼ü,³ÌĞòµ½ÁËºóÌ¨
+                	//è¡¨ç¤ºæŒ‰äº†homeé”®,ç¨‹åºåˆ°äº†åå°
                 	if(showwinlrc)
         			{
         				LrcService.lrc1.setVisibility(View.VISIBLE);
         				LrcService.lrc2.setVisibility(View.VISIBLE);
         			}
                 }else if(TextUtils.equals(reason, SYSTEM_HOME_KEY_LONG)){
-                    //±íÊ¾³¤°´home¼ü,ÏÔÊ¾×î½üÊ¹ÓÃµÄ³ÌĞòÁĞ±í
+                	//è¡¨ç¤ºé•¿æŒ‰homeé”®,æ˜¾ç¤ºæœ€è¿‘ä½¿ç”¨çš„ç¨‹åºåˆ—è¡¨
                 }
             }
         }

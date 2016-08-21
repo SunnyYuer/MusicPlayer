@@ -10,7 +10,7 @@ import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 
 public abstract class ZLibUtils
-{  //ÓÃÓÚ¿á¹·¸è´Ê
+{  //ç”¨äºé…·ç‹—æ­Œè¯
     public static byte[] compress(byte[] data) {
         byte[] output = new byte[0];
         Deflater compresser = new Deflater();

@@ -21,12 +21,12 @@ public class LrcService extends Service
 	public static TextView lrc2;
 	public static WindowManager.LayoutParams params1;
 	public static WindowManager.LayoutParams params2;
-	private int statusBarHeight; //×ÀÃæ×´Ì¬À¸µÄ¸ß¶È
-	private float startX;  //¸è´ÊÆğÊ¼Î»ÖÃ
+	private int statusBarHeight; //æ¡Œé¢çŠ¶æ€æ çš„é«˜åº¦
+	private float startX;  //æ­Œè¯èµ·å§‹ä½ç½®
     private float startY;
-    public static String lrcnext;  //ÏÂ´Î²¥·Å¸è´Ê
-    private static int line=1;  //ÕıÔÚ²¥·ÅµÄĞĞÊı
-    private int realL;  //ÊÊÅä²»Í¬´óĞ¡»úĞÍµÄ¸è´Ê¼ä¾à
+    public static String lrcnext;  //ä¸‹æ¬¡æ’­æ”¾æ­Œè¯
+    private static int line=1;  //æ­£åœ¨æ’­æ”¾çš„è¡Œæ•°
+    private int realL;  //é€‚é…ä¸åŒå¤§å°æœºå‹çš„æ­Œè¯é—´è·
  
     public LrcService() {
     }
@@ -46,33 +46,33 @@ public class LrcService extends Service
     {
     	WindowManager.LayoutParams params = new WindowManager.LayoutParams();
     	params.type = LayoutParams.TYPE_SYSTEM_ALERT
-                | LayoutParams.TYPE_SYSTEM_OVERLAY;// ÉèÖÃ´°¿ÚÀàĞÍÎªÏµÍ³¼¶
+                | LayoutParams.TYPE_SYSTEM_OVERLAY;// è®¾ç½®çª—å£ç±»å‹ä¸ºç³»ç»Ÿçº§
     	params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
-                | LayoutParams.FLAG_NOT_FOCUSABLE;// ÉèÖÃ´°¿Ú½¹µã
+                | LayoutParams.FLAG_NOT_FOCUSABLE;// è®¾ç½®çª—å£ç„¦ç‚¹
  
     	params.width = WindowManager.LayoutParams.FILL_PARENT;
     	params.height = WindowManager.LayoutParams.WRAP_CONTENT;
     	params.alpha = 80;
  
     	params.gravity = Gravity.LEFT | Gravity.TOP;
-        // ÒÔÆÁÄ»×óÉÏ½ÇÎªÔ­µã£¬ÉèÖÃx¡¢y³õÊ¼Öµ
+    	// ä»¥å±å¹•å·¦ä¸Šè§’ä¸ºåŸç‚¹ï¼Œè®¾ç½®xã€yåˆå§‹å€¼Öµ
     	params.x = 0;
-    	params.format = PixelFormat.RGBA_8888;  //ÉèÖÃ±³¾°ÎªÍ¸Ã÷
+    	params.format = PixelFormat.RGBA_8888;  //è®¾ç½®èƒŒæ™¯ä¸ºé€æ˜
     	return params;
     }
  
-    // ÏÔÊ¾¸¡¶¯´°¿Ú
+ // æ˜¾ç¤ºæµ®åŠ¨çª—å£
     public void showWindow() {
     	params1 = getParams();
     	params1.y = 0;
-    	//winm.getDefaultDisplay().getHeight()»ñÈ¡ÆÁÄ»¸ß¶È
+    	//winm.getDefaultDisplay().getHeight()//è·å–å±å¹•é«˜åº¦
         
         lrc1 = new TextView(this);
         lrc1.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
 			public boolean onTouch(View arg0, MotionEvent event) {
-				float x = event.getRawX();  //µ±Ç°´¥ÅöÎ»ÖÃ
+				float x = event.getRawX();  //å½“å‰è§¦ç¢°ä½ç½®
 		        float y = event.getRawY()-statusBarHeight;
 		 
 		        switch (event.getAction()) {
@@ -163,9 +163,9 @@ public class LrcService extends Service
     	}
     }
     
-    // ¸üĞÂ¸¡¶¯´°¿ÚÎ»ÖÃ²ÎÊı
+ // æ›´æ–°æµ®åŠ¨çª—å£ä½ç½®å‚æ•°
     private void updatePosition(float x, float y) {
-        // ViewµÄµ±Ç°Î»ÖÃ
+    	// Viewçš„å½“å‰ä½ç½®
         params1.x = (int) x;
         params1.y = (int) y;
         params2.x = (int) x;
@@ -174,7 +174,7 @@ public class LrcService extends Service
         winm.updateViewLayout(lrc2, params2);
     }
     
-    // »ñµÃ×´Ì¬À¸¸ß¶È
+    // è·å¾—çŠ¶æ€æ é«˜åº¦
     private int getStatusBarHeight() {
     	int result = 0;
 	    int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -184,7 +184,7 @@ public class LrcService extends Service
 	    return result;
     }
  
-    // serviceÍË³öÊ±¹Ø±Õ¸¡¶¯´°¿Ú
+    // serviceé€€å‡ºæ—¶å…³é—­æµ®åŠ¨çª—å£
     @Override
     public void onDestroy() {
         if (lrc1 != null) {
