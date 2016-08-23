@@ -142,6 +142,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 			{
 				jiazai();
 				player.start();
+				h.post(r);
 			}
 		});
 		
@@ -220,7 +221,9 @@ implements OnClickListener,OnSeekBarChangeListener{
 			
 			musicName.setText(musics[index].getName().replaceAll(".mp3", ""));
 			total = player.getDuration();//获取播放总时长
+			seekBar.setProgress(0);
 			seekBar.setMax(total);
+			jindu.setText(getTime(0));
 			zong.setText(getTime(total));
 			getlrc(musics[index].getName().replaceAll(".mp3", ".krc"));
 			
@@ -257,7 +260,6 @@ implements OnClickListener,OnSeekBarChangeListener{
 	
 	public void setlrc()
 	{
-		if(!showlrc) return;
 		int line = jiexi.getLine(player.getCurrentPosition(),lrcline);
 		if(line!=lrcline)
 		{
@@ -370,7 +372,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 		public void run() {
 			h.postDelayed(r, 100);//间隔100ms再次执行
 			if(!proman) seekBar.setProgress(player.getCurrentPosition());
-			setlrc();
+			if(showlrc) setlrc();
 			if(seekBar.getProgress()+300>total && seekBar.getProgress()<total)
 			{  //用于自动切换歌曲
 				changeMusic();
@@ -402,7 +404,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 		{
 			player.seekTo(nowpro);
 			lrcline = 0;
-			setlrc();
+			if(showlrc) setlrc();
 		}
 		proman = false;
 	}
@@ -432,8 +434,6 @@ implements OnClickListener,OnSeekBarChangeListener{
 		//模式一  顺序上下一曲
 		//模式二  随机下一曲
 		//模式三  循环播放
-		player.seekTo(total);  //设置进度为最后，会触发播放完成事件
-		seekBar.setProgress(0);
 		if(mode==1)
 		{
 			index++;
@@ -451,6 +451,8 @@ implements OnClickListener,OnSeekBarChangeListener{
 			Random r = new Random();
 			index=r.nextInt(num);
 		}
+		h.removeCallbacks(r);
+		player.seekTo(total);  //设置进度为最后，会触发播放完成事件
 	}
 	
 	public void lists(View v)
@@ -476,8 +478,11 @@ implements OnClickListener,OnSeekBarChangeListener{
 					h.post(r);
 					play = !play;
 				}
-				else player.seekTo(total);
-				seekBar.setProgress(0);
+				else
+				{
+					h.removeCallbacks(r);
+					player.seekTo(total);
+				}
 				press = false;
 	    	}
 	    	else
