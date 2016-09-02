@@ -61,13 +61,13 @@ public class ListViewAdapter extends BaseAdapter{
 	class ViewHolder
 	{
 		ImageView iv;
+		CheckBox cb;
         TextView tv;
-        CheckBox cb;
     }
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup arg2)
-	{//视图刷新
+	{//视图刷新  对即将显示却未显示的一行刷新
 		ViewHolder holder;
         if (convertView == null)
         {
@@ -75,8 +75,8 @@ public class ListViewAdapter extends BaseAdapter{
     		convertView = inflater.inflate(R.layout.directory, null);
         	holder = new ViewHolder();
             holder.iv = (ImageView) convertView.findViewById(R.id.fodicon);
-            holder.tv = (TextView) convertView.findViewById(R.id.fodname);
             holder.cb = (CheckBox) convertView.findViewById(R.id.check);
+            holder.tv = (TextView) convertView.findViewById(R.id.fodname);
             convertView.setTag(holder);
         }
         else
@@ -84,7 +84,6 @@ public class ListViewAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
         holder.iv.setImageResource((Integer)data.get(position).get("icon"));
-        holder.tv.setText((String)data.get(position).get("fname"));
         holder.cb.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -97,11 +96,14 @@ public class ListViewAdapter extends BaseAdapter{
 				MusicList.update();
 			}
 		});
-        if(position!=0)
+        //System.out.println(position);
+        if(position==0) holder.cb.setVisibility(View.GONE);
+        else
         {
         	holder.cb.setChecked(select.get(position));
-        	holder.cb.setVisibility(1);
+        	holder.cb.setVisibility(View.VISIBLE);
         }
+        holder.tv.setText((String)data.get(position).get("fname"));
 		return convertView;
 	}
 	

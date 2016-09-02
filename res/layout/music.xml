@@ -17,6 +17,8 @@
 	    android:layout_height="wrap_content"
 	    android:textSize="12sp"
 	    android:textColor="#ffffff"
-	    android:text="音乐文件"/>
+	    android:text="音乐文件"
+	    android:singleLine="true"
+	    android:ellipsize="end"/>
     
 </LinearLayout>
