@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.yuer.MusicPlayer.R;
-import com.yuer.MusicPlayer.file.MyComprator;
-import com.yuer.MusicPlayer.file.MyFolderFilter;
 import com.yuer.MusicPlayer.lrc.LrcService;
+import com.yuer.MusicPlayer.myclass.MyComprator;
+import com.yuer.MusicPlayer.myclass.MyFolderFilter;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,6 +24,10 @@ import android.widget.AdapterView.OnItemClickListener;
 public class AddMusicFod extends Activity implements OnItemClickListener{
 
 	private ListView lv;
+	private List<Map<String, Object>> data;
+	private SimpleAdapter adpter;
+	private ArrayList<Integer> listind;//存储上级目录的index
+	private ArrayList<Integer> listtop;//存储上级目录的屏幕位置
 	private File[] folders;
 	private String path;
 	private String pathori;  //sdcard目录
@@ -38,22 +42,30 @@ public class AddMusicFod extends Activity implements OnItemClickListener{
 		
 		lv = (ListView)findViewById(R.id.fodlist);
 		lv.setOnItemClickListener(this);
-		showFiles(path);
+		
+		data = getData();
+		adpter = new SimpleAdapter(this, data, R.layout.music, 
+				new String[]{"icon","fname"}, 
+				new int[]{R.id.icon, R.id.music});
+		lv.setAdapter(adpter);
+		
+		listind = new ArrayList<Integer>();
+		listtop = new ArrayList<Integer>();
 	}
 	
-	public void showFiles(String path)
+	public void update()
 	{
+		data.clear();
+		data.addAll(getData());
+		adpter.notifyDataSetChanged();
+	}
+	
+	private List<Map<String, Object>> getData() {
 		File file = new File(path);
 		folders = file.listFiles(new MyFolderFilter());
 		Arrays.sort(folders,new MyComprator());
 		folders = sort(folders);
-		SimpleAdapter adpter = new SimpleAdapter(this, getData(), R.layout.music, 
-				new String[]{"icon","fname"}, 
-				new int[]{R.id.icon, R.id.music});
-		lv.setAdapter(adpter);
-	}
-	
-	private List<Map<String, Object>> getData() {
+		
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		for(int i=0;i<folders.length;i++)
 		{
@@ -110,13 +122,21 @@ public class AddMusicFod extends Activity implements OnItemClickListener{
 	}
 	
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
-		
+	public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3)
+	{
 		File file = new File(path+"/"+folders[i].getName());
 		if(file.isDirectory())
 		{
+			int index = lv.getFirstVisiblePosition();
+			View v = lv.getChildAt(0);
+			int top = (v == null) ? 0 : v.getTop();
+			listind.add(index);//记住位置
+			listtop.add(top);
+			
 			path = path+"/"+folders[i].getName();
-			showFiles(path);
+			update();
+			
+			lv.setSelectionFromTop(0, 0);
 		}
 	}
 	
@@ -136,7 +156,12 @@ public class AddMusicFod extends Activity implements OnItemClickListener{
 		{
 			path = "/";
 		}
-		showFiles(path);
+		update();
+		
+		int index = listind.size()-1;
+		lv.setSelectionFromTop(listind.get(index), listtop.get(index));
+		listind.remove(index);
+		listtop.remove(index);
 	}
 
 	@Override
@@ -151,7 +176,7 @@ public class AddMusicFod extends Activity implements OnItemClickListener{
 	
 	public void submit(View v)
 	{
-		MusicsList.newfodname = path;
+		MusicList.newfodname = path;
 		finish();
 	}
 	

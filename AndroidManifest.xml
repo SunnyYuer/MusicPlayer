@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="com.yuer.MusicPlayer.MusicsList"
+        <activity android:name="com.yuer.MusicPlayer.MusicList"
             android:theme="@android:style/Theme.NoTitleBar"/>
         
         <activity android:name="com.yuer.MusicPlayer.AddMusicFod"

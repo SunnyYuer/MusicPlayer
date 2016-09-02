@@ -6,11 +6,11 @@ import java.util.Arrays;
 import java.util.Random;
 
 import com.yuer.MusicPlayer.R;
-import com.yuer.MusicPlayer.file.MyComprator;
-import com.yuer.MusicPlayer.file.MyFileFilter;
 import com.yuer.MusicPlayer.lrc.Jiexilrc;
 import com.yuer.MusicPlayer.lrc.KrcText;
 import com.yuer.MusicPlayer.lrc.LrcService;
+import com.yuer.MusicPlayer.myclass.MyComprator;
+import com.yuer.MusicPlayer.myclass.MyFileFilter;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -165,12 +165,17 @@ implements OnClickListener,OnSeekBarChangeListener{
 	{
 		String[] name = new String[100];
 		int n = sharedPre.getInt("fodnum", 0);
+		int m=0;
 		for(int i=0;i<n;i++)
 		{
-			name[i] = sharedPre.getString("name"+i, "");
+			if(sharedPre.getInt("check"+i, 0)==1)
+			{
+				name[m] = sharedPre.getString("name"+i, "");
+				m++;
+			}
 		}
 		int k = 0;
-		for(int i=0;i<n;i++)
+		for(int i=0;i<m;i++)
 		{
 			File f = new File(name[i]);
 			File[] music = f.listFiles(new MyFileFilter());
@@ -178,7 +183,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 		}
 		musics = new File[k];
 		k = 0;
-		for(int i=0;i<n;i++)
+		for(int i=0;i<m;i++)
 		{
 			File f = new File(name[i]);
 			File[] music = f.listFiles(new MyFileFilter());
@@ -458,7 +463,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 	public void lists(View v)
 	{
 		fugai = true;
-		Intent i = new Intent(this,MusicsList.class);
+		Intent i = new Intent(this,MusicList.class);
 		startActivity(i);
 	}
 
