@@ -206,8 +206,7 @@ implements OnItemClickListener,OnClickListener,OnItemLongClickListener
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		LrcService.lrc1.setVisibility(View.INVISIBLE);
-		LrcService.lrc2.setVisibility(View.INVISIBLE);
+		LrcService.layout.setVisibility(View.GONE);
 		int n = sharedPre.getInt("fodnum", 0);
 		int flag = 0;
 		String name="";

@@ -20,7 +20,7 @@ import android.widget.TextView;
 public class LrcService extends Service
 {
 	public WindowManager winm;
-	public View layout;//桌面歌词布局
+	public static View layout;//桌面歌词布局
 	public static TextView lrc1;
 	public static TextView lrc2;
 	public WindowManager.LayoutParams params;

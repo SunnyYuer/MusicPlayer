@@ -19,8 +19,7 @@ public class Setting extends PreferenceActivity{
 	
 	@Override
 	protected void onRestart() {
-		LrcService.lrc1.setVisibility(View.INVISIBLE);
-		LrcService.lrc2.setVisibility(View.INVISIBLE);
+		LrcService.layout.setVisibility(View.GONE);
 		super.onRestart();
 	}
 }

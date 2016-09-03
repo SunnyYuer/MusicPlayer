@@ -498,8 +498,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 				btnPlay.setImageResource(R.drawable.pause_dark);
     		}
     	}
-    	LrcService.lrc1.setVisibility(View.INVISIBLE);
-		LrcService.lrc2.setVisibility(View.INVISIBLE);
+    	LrcService.layout.setVisibility(View.GONE);
     	if(sett)
     	{  //更新showwinlrc
     		setshowwinlrc();
@@ -553,8 +552,7 @@ implements OnClickListener,OnSeekBarChangeListener{
                 	//表示按了home键,程序到了后台
                 	if(showwinlrc)
         			{
-        				LrcService.lrc1.setVisibility(View.VISIBLE);
-        				LrcService.lrc2.setVisibility(View.VISIBLE);
+                		LrcService.layout.setVisibility(View.VISIBLE);
         			}
                 }else if(TextUtils.equals(reason, SYSTEM_HOME_KEY_LONG)){
                 	//表示长按home键,显示最近使用的程序列表
