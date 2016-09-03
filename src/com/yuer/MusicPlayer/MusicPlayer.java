@@ -197,7 +197,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 		});
 		
 		serviceIntent = new Intent(this,LrcService.class);
-		startService(serviceIntent);//启动桌面歌词服务，默认不显示
+		startService(serviceIntent);//启动桌面歌词服务，未设置则默认不显示
 	}
 	
 	public void changeMusic()
