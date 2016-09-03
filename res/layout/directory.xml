@@ -14,7 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:button="@drawable/checkstyle"
+        android:background="@drawable/checkstyle"
+        android:button="@null"
         android:focusable="false"
         android:checked="false" />
     <TextView 
