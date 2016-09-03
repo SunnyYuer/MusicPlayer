@@ -113,44 +113,7 @@ implements OnClickListener,OnSeekBarChangeListener{
 		showwinlrc = prefs.getBoolean("showwinlrc", false);
 	}
 	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.playmusic);
-		
-		registerReceiver(mHomeKeyEventReceiver, new IntentFilter(
-                Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
-		//使用广播接受者监听home键
-		
-		initUI();
-		setshowwinlrc();
-		filesIni();
-		readFiles();
-		
-		player = new MediaPlayer();
-		if(num>0) jiazai();
-		
-		btnPlay.setOnClickListener(this);
-		next.setOnClickListener(this);
-		pre.setOnClickListener(this);
-		seekBar.setOnSeekBarChangeListener(this);
-		btnMode.setOnClickListener(this);
-		
-		player.setOnCompletionListener(new OnCompletionListener() {
-			@Override
-			public void onCompletion(MediaPlayer arg0)
-			{
-				jiazai();
-				player.start();
-				h.post(r);
-			}
-		});
-		
-		serviceIntent = new Intent(this,LrcService.class);
-		startService(serviceIntent);//启动桌面歌词服务，默认不显示
-	}
-	
-	public void filesIni()
+	public void sharedIni()
 	{
 		int n = sharedPre.getInt("fodnum", 0);
 		if(n==0)
@@ -200,6 +163,69 @@ implements OnClickListener,OnSeekBarChangeListener{
 		{
 			System.out.println(musics[i].getName());
 		}*/
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.playmusic);
+		
+		registerReceiver(mHomeKeyEventReceiver, new IntentFilter(
+                Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+		//使用广播接受者监听home键
+		
+		initUI();
+		setshowwinlrc();
+		sharedIni();
+		readFiles();
+		
+		player = new MediaPlayer();
+		if(num>0) jiazai();
+		
+		btnPlay.setOnClickListener(this);
+		next.setOnClickListener(this);
+		pre.setOnClickListener(this);
+		seekBar.setOnSeekBarChangeListener(this);
+		btnMode.setOnClickListener(this);
+		
+		player.setOnCompletionListener(new OnCompletionListener() {
+			@Override
+			public void onCompletion(MediaPlayer arg0)
+			{
+				changeMusic();
+			}
+		});
+		
+		serviceIntent = new Intent(this,LrcService.class);
+		startService(serviceIntent);//启动桌面歌词服务，默认不显示
+	}
+	
+	public void changeMusic()
+	{
+		//模式一  顺序上下一曲
+		//模式二  随机下一曲
+		//模式三  循环播放
+		if(mode==1)
+		{
+			index++;
+			if(index>=num)
+			{
+				index = 0;
+			}
+			if(index<0)
+			{
+				index = num-1;
+			}
+		}
+		if(mode==2)
+		{
+			Random r = new Random();
+			index=r.nextInt(num);
+		}
+		h.removeCallbacks(r);
+		jiazai();
+		player.start();
+		h.post(r);
 	}
 	
 	public void initial()
@@ -378,10 +404,6 @@ implements OnClickListener,OnSeekBarChangeListener{
 			h.postDelayed(r, 100);//间隔100ms再次执行
 			if(!proman) seekBar.setProgress(player.getCurrentPosition());
 			if(showlrc) setlrc();
-			if(seekBar.getProgress()+300>total && seekBar.getProgress()<total)
-			{  //用于自动切换歌曲
-				changeMusic();
-			}
 		}
 	};
 
@@ -434,32 +456,6 @@ implements OnClickListener,OnSeekBarChangeListener{
 		return text;
 	}
 	
-	public void changeMusic()
-	{
-		//模式一  顺序上下一曲
-		//模式二  随机下一曲
-		//模式三  循环播放
-		if(mode==1)
-		{
-			index++;
-			if(index>=num)
-			{
-				index = 0;
-			}
-			if(index<0)
-			{
-				index = num-1;
-			}
-		}
-		if(mode==2)
-		{
-			Random r = new Random();
-			index=r.nextInt(num);
-		}
-		h.removeCallbacks(r);
-		player.seekTo(total);  //设置进度为最后，会触发播放完成事件
-	}
-	
 	public void lists(View v)
 	{
 		fugai = true;
@@ -478,16 +474,12 @@ implements OnClickListener,OnSeekBarChangeListener{
 				if(!play)
 				{
 					btnPlay.setImageResource(R.drawable.pause_dark);
-					jiazai();
-					player.start();
-					h.post(r);
 					play = !play;
 				}
-				else
-				{
-					h.removeCallbacks(r);
-					player.seekTo(total);
-				}
+				else h.removeCallbacks(r);
+				jiazai();
+				player.start();
+				h.post(r);
 				press = false;
 	    	}
 	    	else
