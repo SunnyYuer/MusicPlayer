@@ -16,7 +16,7 @@ public class Jiexilrc {
 		{
 			if(lyric[index].length()>=15)  //一行至少要15长度才是歌词
 			{
-				//System.out.println(s);
+				//System.out.println(lyric[index]);
 				int i = lyric[index].indexOf(",");  //找到歌词前面的[100,200]中的','
 				if(i==-1)
 				{
@@ -24,7 +24,13 @@ public class Jiexilrc {
 				}
 				String j = lyric[index].substring(1, i);
 				//System.out.println(j);
-				if(jindu<Integer.parseInt(j)) break;
+				try
+				{
+					if(jindu < Integer.parseInt(j)) break;
+				}
+				catch(NumberFormatException e)
+				{
+				}
 			}
 		}
 		return index;
